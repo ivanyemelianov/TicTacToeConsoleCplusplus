@@ -4,7 +4,8 @@
 #include <stdlib.h>
 
 
-std::vector<char> board = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+std::vector<char> board = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+
 
 void insertLetter(char letter, int pos){
     board[pos] = letter;
@@ -22,28 +23,28 @@ bool spaceIsFree(int pos){
 
 void printBoard(std::vector<char> board){
     std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[1] <<  " | " << board[2] << " | " << board[3] << std::endl;
+    std::cout << " " << board[0] <<  " | " << board[1] << " | " << board[2] << std::endl;
     std::cout << "   |   |" << std::endl;
     std::cout << "-----------" << std::endl;
     std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[4] <<  " | " << board[5] << " | " << board[6] << std::endl;
+    std::cout << " " << board[3] <<  " | " << board[4] << " | " << board[5] << std::endl;
     std::cout << "   |   |" << std::endl;
     std::cout << "-----------" << std::endl;
     std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[7] <<  " | " << board[8] << " | " << board[9] << std::endl;
+    std::cout << " " << board[6] <<  " | " << board[7] << " | " << board[8] << std::endl;
     std::cout << "   |   |" << std::endl;
 }
 
 bool isWinner(std::vector<char> board, char letter){
     bool is_winner = false;
-    if ((board[7] == letter && board[8] == letter && board[9] == letter) ||
-        (board[4] == letter && board[5] == letter && board[6] == letter) ||
-        (board[1] == letter && board[2] == letter && board[3] == letter) ||
-        (board[1] == letter && board[5] == letter && board[9] == letter) ||
-        (board[7] == letter && board[5] == letter && board[3] == letter) ||
-        (board[2] == letter && board[5] == letter && board[8] == letter) ||
+    if ((board[6] == letter && board[7] == letter && board[8] == letter) ||
+        (board[3] == letter && board[4] == letter && board[5] == letter) ||
+        (board[0] == letter && board[1] == letter && board[2] == letter) ||
+        (board[0] == letter && board[4] == letter && board[8] == letter) ||
+        (board[6] == letter && board[4] == letter && board[2] == letter) ||
         (board[1] == letter && board[4] == letter && board[7] == letter) ||
-        (board[3] == letter && board[6] == letter && board[9] == letter)
+        (board[0] == letter && board[3] == letter && board[6] == letter) ||
+        (board[2] == letter && board[5] == letter && board[8] == letter)
     ){
         is_winner = true;
     }
@@ -60,7 +61,7 @@ void playerMove(){
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-
+        move = move - 1;
         if (spaceIsFree(move) == true){
             run = false;
             insertLetter('X', move);
@@ -80,8 +81,8 @@ int compMove(){
     std::vector<char> possibleMoves;
     int move = 0;
 
-    for (int i = 0; i < 10; i++){
-        if ((board[i] == ' ') && (i != 0)) {
+    for (int i = 0; i < 9; i++){
+        if (board[i] == ' ') {
             possibleMoves.push_back(i);
         }
     }
@@ -104,8 +105,8 @@ int compMove(){
     }
 
     for (int i = 0; i < possibleMoves.size(); i++){
-        if (possibleMoves[i] == 5){
-            move = 5;
+        if (possibleMoves[i] == 4){
+            move = 4;
             return move;
         }
     }
@@ -113,7 +114,7 @@ int compMove(){
     std::vector<char> cornersOpen;
     for (int i = 0; i < possibleMoves.size(); i++){
         int possibleMove = possibleMoves[i];
-        int corners[] = {1, 3, 7, 9};
+        int corners[] = {0, 2, 6, 8};
         for(int k = 0; k < 4; k++){
             if (possibleMove == corners[k]){
                 cornersOpen.push_back(possibleMove);
@@ -129,7 +130,7 @@ int compMove(){
     std::vector<char> edgesOpen;
     for (int i = 0; i < possibleMoves.size(); i++){
         int possibleMove = possibleMoves[i];
-        int corners[] = {2, 4, 6, 8};
+        int corners[] = {1, 3, 5, 7};
             for(int k = 0; k < 4; k++){
                 if (possibleMove == corners[k]){
                     edgesOpen.push_back(possibleMove);
@@ -147,13 +148,13 @@ int compMove(){
 bool isBoardFull(){
     bool is_full = false;
     int count = 0;
-    for (int i=0; i < 10; i++ ){
+    for (int i=0; i < 9; i++ ){
         if (board[i] == ' '){
             count++;
         }
     }
 
-    if (count < 2) {
+    if (count == 0) {
         is_full = true;
     }
 
