@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <stdlib.h>
+#include <map>
 
 
 std::vector<char> board = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-
+std::map< std::string, int> inputTranslator = {{"A1", 0}, {"A2", 1}, {"A3", 2}, {"B1", 3},
+{"B2", 4}, {"B3", 5}, {"C1", 6}, {"C2", 7}, {"C3", 8}};
 
 void insertLetter(char letter, int pos){
     board[pos] = letter;
@@ -22,17 +23,18 @@ bool spaceIsFree(int pos){
 }
 
 void printBoard(std::vector<char> board){
-    std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[0] <<  " | " << board[1] << " | " << board[2] << std::endl;
-    std::cout << "   |   |" << std::endl;
-    std::cout << "-----------" << std::endl;
-    std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[3] <<  " | " << board[4] << " | " << board[5] << std::endl;
-    std::cout << "   |   |" << std::endl;
-    std::cout << "-----------" << std::endl;
-    std::cout << "   |   |" << std::endl;
-    std::cout << " " << board[6] <<  " | " << board[7] << " | " << board[8] << std::endl;
-    std::cout << "   |   |" << std::endl;
+    std::cout << "   1   2   3" << std::endl;
+    std::cout << "     |   |" << std::endl;
+    std::cout << "A " << " " << board[0] <<  " | " << board[1] << " | " << board[2] << std::endl;
+    std::cout << "     |   |" << std::endl;
+    std::cout << "  -----------" << std::endl;
+    std::cout << "     |   |" << std::endl;
+    std::cout << "B " << " " << board[3] <<  " | " << board[4] << " | " << board[5] << std::endl;
+    std::cout << "     |   |" << std::endl;
+    std::cout << "  -----------" << std::endl;
+    std::cout << "     |   |" << std::endl;
+    std::cout << "C " << " " << board[6] <<  " | " << board[7] << " | " << board[8] << std::endl;
+    std::cout << "     |   |" << std::endl;
 }
 
 bool isWinner(std::vector<char> board, char letter){
@@ -51,23 +53,47 @@ bool isWinner(std::vector<char> board, char letter){
     return is_winner;
 }
 
+/*bool isValidInput(std::string input){
+    bool isValid;
+    std::vector<std::string> validInput {"A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"};
+    for (int i = 0; i == validInput.size(); i++){
+        if (input.compare(validInput[i]) == 0){
+            return isValid = true;
+        }else{
+            return isValid = false;
+        }
+    }
+}*/
+
 void playerMove(){
     bool run = true;
     int move;
+    std::string input;
 
     while (run == true){
-        while((std::cout << "Please, select a position to place an X (1-9): ") && (!(std::cin >> move) || move < 1 || move > 9)) {
+        /*while((std::cout << "Please, select a position to place an X: ") && (!(std::cin >> move) || move < 1 || move > 9)) {
             std::cout << "Please, type a number within the range" << std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-        move = move - 1;
+        }*/
+        std::cout << "Please, select a position to place an X: ";
+        std::cin >> input;
+
+        move = inputTranslator[input];
         if (spaceIsFree(move) == true){
             run = false;
             insertLetter('X', move);
         }else{
             std::cout << "Sorry, this space is occupied!" << std::endl;
         }
+
+        /*if (isValidInput(input) == true){
+             
+        }else{
+            std::cout << "Input is not valid. Please enter an upprcase A, B or C followed by a gigit from 1 to 3" << std::endl;
+        } */
+
+           
     }
 }
 
@@ -176,7 +202,7 @@ int main(){
 
         if (!(isWinner(board, 'X'))){
             int move = compMove();
-            if (move == 0) {
+            if (isBoardFull()) {
                 std::cout << "Tie game!" << std::endl;
             }else{
                 insertLetter('O', move);
@@ -190,7 +216,7 @@ int main(){
         }
     }
 
-    if (isBoardFull()){
+    /*if (){
         std::cout << "Tie Game!" << std::endl;
-    }
+    }*/
 }
