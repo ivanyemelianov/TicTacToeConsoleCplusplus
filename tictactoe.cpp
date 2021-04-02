@@ -53,17 +53,17 @@ bool isWinner(std::vector<char> board, char letter){
     return is_winner;
 }
 
-/*bool isValidInput(std::string input){
+bool isValidInput(std::string input){
     bool isValid;
-    std::vector<std::string> validInput {"A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"};
-    for (int i = 0; i == validInput.size(); i++){
-        if (input.compare(validInput[i]) == 0){
-            return isValid = true;
-        }else{
-            return isValid = false;
-        }
+    //std::vector<std::string> validInput {"A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"};
+    //for (int i = 0; i == validInput.size(); i++){
+    if (inputTranslator.count(input)){
+        return isValid = true;
+    }else{
+        return isValid = false;
     }
-}*/
+    //}
+}
 
 void playerMove(){
     bool run = true;
@@ -79,19 +79,19 @@ void playerMove(){
         std::cout << "Please, select a position to place an X: ";
         std::cin >> input;
 
-        move = inputTranslator[input];
-        if (spaceIsFree(move) == true){
-            run = false;
-            insertLetter('X', move);
-        }else{
-            std::cout << "Sorry, this space is occupied!" << std::endl;
-        }
+        
 
-        /*if (isValidInput(input) == true){
-             
+        if (isValidInput(input) == true){
+            move = inputTranslator[input];
+            if (spaceIsFree(move) == true){
+                run = false;
+                insertLetter('X', move);
+            }else{
+                std::cout << "Sorry, this space is occupied!" << std::endl;
+            }
         }else{
             std::cout << "Input is not valid. Please enter an upprcase A, B or C followed by a gigit from 1 to 3" << std::endl;
-        } */
+        } 
 
            
     }
@@ -216,7 +216,7 @@ int main(){
         }
     }
 
-    /*if (){
+    /*if (isBoardFull()){
         std::cout << "Tie Game!" << std::endl;
     }*/
 }
